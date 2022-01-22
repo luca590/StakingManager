@@ -4,7 +4,7 @@ from src.staking.dot.argparserUtil import actionMnemonic, actionNumberOfTokens, 
     actionControllerAddress, \
     actionRewardsDestination, \
     actionValidatorAddress, actionHelp, subcommand, actionNumSlashingSpans
-from examples import exampleBond, exampleBonder, exampleBoundExtra, exampleReBound, exampleWithdrawUnBonded
+from examples import exampleBond, exampleBonder, exampleBondExtra, exampleRebond, exampleWithdrawUnBonded
 from config import kusamaActiveConfig
 
 
@@ -100,7 +100,7 @@ def ksmBonderArgParser(parent_parser):
 
     @subcommand(parent=bonderSubParser,
                 sub_help="Rebond a portion of the stash scheduled to be unlocked.",
-                epilog=exampleReBound, required_args=[actionMnemonic(), actionNumberOfTokens()],
+                epilog=exampleRebond, required_args=[actionMnemonic(), actionNumberOfTokens()],
                 optional_args=[actionRewardsDestination(), actionValidatorAddress(kusamaActiveConfig), actionHelp()])
     def rebond(args):
         @SubstrateCall(config=kusamaActiveConfig, cli_name="bonder", call_module="Staking",
@@ -125,7 +125,7 @@ def ksmBonderArgParser(parent_parser):
 
     @subcommand(parent=bonderSubParser,
                 sub_help="Add some extra amount that have appeared in the stash `free_balance` into the balance up for staking.",
-                epilog=exampleBoundExtra, required_args=[actionMnemonic(), actionControllerAddress(), actionNumberOfTokens()],
+                epilog=exampleBondExtra, required_args=[actionMnemonic(), actionControllerAddress(), actionNumberOfTokens()],
                 optional_args=[actionRewardsDestination(), actionValidatorAddress(kusamaActiveConfig), actionHelp()])
     def bondextra(args):
         @SubstrateCall(config=kusamaActiveConfig, cli_name="bonder", call_module="Staking",

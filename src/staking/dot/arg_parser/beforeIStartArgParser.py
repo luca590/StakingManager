@@ -1,7 +1,7 @@
 # beforeIStartArgParser
 from src.staking.dot.argparserUtil import actionHelp, subcommand
 from examples import exampleGuide
-from logger import myLogger
+from logger import logger
 
 
 def beforeIStartArgParser(parent_parser):
@@ -18,4 +18,4 @@ def beforeIStartArgParser(parent_parser):
         - If an account drops below the ED, the account is reaped (“deactivated”) and any remaining funds are destroyed. 
     - If an account is already bonded the use of bond command will be not needed else use (bondextra)           
         """
-        myLogger("Guide").info(userGuide)
+        logger("Guide").info(userGuide)

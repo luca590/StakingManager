@@ -2,7 +2,7 @@ from src.staking.cosmos.fxn_decorator_implementations.transactionImplementation 
 from common import MyHelpFormatter
 from src.staking.dot.argparserUtil import actionMnemonic, actionNumberOfTokens, actionControllerAddress, \
     actionValidatorAddress, actionHelp, subcommand
-from examples import exampleBond, exampleBonder, exampleReBound
+from examples import exampleBond, exampleBonder, exampleRebond
 from config import cosmosActiveConfig
 
 
@@ -50,7 +50,7 @@ def atomDelegatorArgParser(parent_parser):
 
     @subcommand(parent=delegatorSubParser,
                 sub_help="redelegations a portion of the stash scheduled to be unlocked.",
-                epilog=exampleReBound, required_args=[actionMnemonic(), actionNumberOfTokens()],
+                epilog=exampleRebond, required_args=[actionMnemonic(), actionNumberOfTokens()],
                 optional_args=[actionValidatorAddress(cosmosActiveConfig), actionHelp()])
     def redelegations(args):
         @CosmosCall(config=cosmosActiveConfig, cli_name="delegator",

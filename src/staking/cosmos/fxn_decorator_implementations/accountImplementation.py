@@ -1,5 +1,5 @@
 import json
-from logger import myLogger
+from logger import logger
 from cosmospy import generate_wallet, BIP32DerivationError, seed_to_privkey, privkey_to_pubkey, pubkey_to_address, \
     privkey_to_address
 
@@ -118,7 +118,7 @@ class AtomAccountCall:
         self.mnemonic = mnemonic
         self.address = address
         self.derivation_path = derivation_path
-        self.logger = myLogger(self.cli_name)
+        self.logger = logger(self.cli_name)
         self.logger.info("Start %s Program." % self.cli_name)
 
     def __call__(self, func):
@@ -154,7 +154,7 @@ def jsonPrityPrint(jsn):
     "public_key": 03d22e027e57cc24e9fa7bfe98b8a85ce96f0c8862b6e08d6cb5b0b908db3483da,
     "address": cosmos18thxn5pjlwnukkufpuwhwln25n978cjwdtl2h8
 """
-ai = AccountImplementation(config=cosmosActiveConfig, logger=myLogger("cosmos"))
+ai = AccountImplementation(config=cosmosActiveConfig, logger=logger("cosmos"))
 # ai.createNewAccount()
 """ai.getPrivateKeyFromMnemonic(
     "skill beauty tape never chest mobile scatter coral slab surround divorce awesome army tail actor system manage slice name scout fault mask fruit state",

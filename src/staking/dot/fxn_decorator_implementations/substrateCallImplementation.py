@@ -1,22 +1,25 @@
 from src.staking.dot.fxn_decorator_implementations.substrateCallImplementationUtils import *
 from src.staking.dot.fxn_decorator_implementations.accountImplementation import *
 from substrateinterface import ExtrinsicReceipt
-from config import dotModulesErrors
+from config import dotModulesErrors, DotActiveConfig
 from substrateinterface.exceptions import SubstrateRequestException
 
-from logger import myLogger
+from logger import logger
 
 
 class SubstrateCall:
-    def __init__(self, config, cli_name, call_module, call_params, seed):
-        self.activeConfig = config
+    def __init__(self, cli_name, call_module, call_params, seed):
+        self.activeConfig = DotActiveConfig
         self.call_module = call_module
         self.call_params = call_params
         self.seed = seed
-        self.logger = myLogger(cli_name)
+        self.logger = logger(cli_name)
         self.logger.info("Start %s Program." % cli_name)
 
-        print('HELLO')
+        try:
+            self.call_params['value'] = self.call_params['value'] * self.activeConfig.coinDecimalPlaces
+        except KeyError:
+            pass
 
     def errorHandler(self, extrinsic_hash, block_hash, logger):
         errors = set()
@@ -38,128 +41,108 @@ class SubstrateCall:
             logger.error(f"{err}")
 
     def call(self, call):
-        """
-        :param active_substrate: dot substrate to connect to
-        :param seed: mnemonic phrase to sign the transaction
-        :param call: transition parameters
-        :return:
-        """
-
-        # this_keypair = dotCreateKeyPair(logger=self.logger, mnemonic=self.seed)
-        # TODO: should call AccountImplementation().createAccount() instead to keep everything needed in accountImplementation.py
-        # this_keypair = KeyPairImplementation().getAddressFromMnemonic()
-        this_address = AccountImplementation(config=self.activeConfig, logger=self.logger,
-                                             mnemonic=self.seed).getAddressFromMnemonic()
+        this_address = AccountImplementation(mnemonic=self.seed).getAddressFromMnemonic()
         extrinsic = self.activeConfig.activeSubstrate.create_signed_extrinsic(call=call, keypair=this_address)
         try:
             receipt = self.activeConfig.activeSubstrate.submit_extrinsic(extrinsic, wait_for_inclusion=True)
-
             if receipt.is_success:
-                self.logger.info(
-                    "Extrinsic '{}' sent and included in block '{}'".format(receipt.extrinsic_hash, receipt.block_hash))
+                self.logger.info(f"Extrinsic {receipt.extrinsic_hash} sent and included in block {receipt.block_hash}")
             else:
                 self.errorHandler(receipt.extrinsic_hash, receipt.block_hash, self.logger)
-
         except SubstrateRequestException as e:
             arg = e.args[0]
             try:
-                self.logger.error("%s : %s" % (arg['message'], arg['data']))
+                self.logger.error(f"{arg['message']} : {arg['data']}")
                 self.__exit__()
             except KeyError:
                 if arg['message'] == "Transaction is temporarily banned":
-                    self.logger.error(
-                        "The tx is already in pool. Either try on a different node, or wait to see if the initial transaction goes through.")
+                    error_message = "The tx is already in pool. " \
+                                    "Either try on a different node, " \
+                                    "or wait to see if the initial transaction goes through."
+                    self.logger.error(error_message)
                     self.__exit__()
                 else:
-                    self.logger.error("%s" % (arg['message']))
+                    self.logger.error(f"{arg['message']}")
                     self.__exit__()
 
-    def __call__(self, func):
-        self.logger.info("execute %s function." % func.__name__)
-        if func.__name__ == "bond":
-            bondValidator = BondingValidator(config=self.activeConfig, logger=self.logger,
-                                             ss58_address=self.call_params['controller'],
-                                             tokenNumber=self.call_params['value'])
-            bondValidator.validateAccountDataBeforeBonding()
+    def bond(self):
+        self.logger.info("Execute bond function")
 
-        if func.__name__ == "bond_extra":
-            self.call_params['max_additional'] = self.call_params['value'] * self.activeConfig.coinDecimalPlaces
-            bondValidator = BondingValidator(config=self.activeConfig, logger=self.logger,
-                                             ss58_address=self.call_params['controller'],
-                                             tokenNumber=self.call_params['max_additional'])
+        bondValidator = BondingValidator(config=self.activeConfig, logger=self.logger,
+                                         ss58_address=self.call_params['controller'],
+                                         tokenNumber=self.call_params['value'])
+        bondValidator.validateAccountDataBeforeBonding()
 
-            bondValidator.validateAccountDataBeforeBonding()
-
-            del self.call_params['controller']
-
-        try:
-            self.call_params['value'] = self.call_params['value'] * self.activeConfig.coinDecimalPlaces
-        except KeyError:
-            pass
-
-        call_chill = self.activeConfig.activeSubstrate.compose_call(
+        call_bond = self.activeConfig.activeSubstrate.compose_call(
             call_module=f"{self.call_module}",
+            call_function="bond",
+            call_params=self.call_params
+        )
+        self.call(call_bond)
+
+        self.__exit__()
+
+    def bond_extra(self):
+        self.call_params['max_additional'] = self.call_params['value'] * self.activeConfig.coinDecimalPlaces
+        bondValidator = BondingValidator(config=self.activeConfig, logger=self.logger,
+                                         ss58_address=self.call_params['controller'],
+                                         tokenNumber=self.call_params['max_additional'])
+
+        bondValidator.validateAccountDataBeforeBonding()
+
+        del self.call_params['controller']
+
+        self.__exit__()
+
+    def stop_nominate_all(self):
+        call_chill = self.activeConfig.activeSubstrate.compose_call(
+            call_module=self.call_module,
             call_function="chill",
-            call_params={}
+            call_params={})
+
+        call_unbond = self.activeConfig.activeSubstrate.compose_call(
+            call_module=self.call_module,
+            call_function="unbond",
+            call_params=self.call_params
         )
 
-        if func.__name__ == "bond":
-            call_bond = self.activeConfig.activeSubstrate.compose_call(
-                call_module=f"{self.call_module}",
-                call_function=f"{func.__name__}",
-                call_params=self.call_params
-            )
-            # self.call(call_chill)
-            self.call(call_bond)
+        self.call(call_chill)
+        self.call(call_unbond)
 
-            self.__exit__()
+        self.__exit__()
 
-        elif func.__name__ == "stop_nominate_all":
+    def stake(self):
+        call_params_bond = {'controller': self.call_params['controller'],
+                            'value': self.call_params['value'],
+                            'payee': self.call_params['payee']}
 
-            call_unbond = self.activeConfig.activeSubstrate.compose_call(
-                call_module=f"{self.call_module}",
-                call_function="unbond",
-                call_params=self.call_params
-            )
+        call_bond = self.activeConfig.activeSubstrate.compose_call(
+            call_module=self.call_module,
+            call_function="bond",
+            call_params=call_params_bond
+        )
+        call_params_nominate = {'targets': self.call_params['targets']}
 
-            self.call(call_chill)
-            self.call(call_unbond)
+        call_nominate = self.activeConfig.activeSubstrate.compose_call(
+            call_module=self.call_module,
+            call_function="nominate",
+            call_params=call_params_nominate
+        )
 
-            self.__exit__()
+        self.call(call_bond)
+        self.call(call_nominate)
 
-        elif func.__name__ == "stake":
-            call_params_bond = {'controller': self.call_params['controller'],
-                                'value': self.call_params['value'],
-                                'payee': self.call_params['payee']}
+        self.__exit__()
 
-            call_bond = self.activeConfig.activeSubstrate.compose_call(
-                call_module=f"{self.call_module}",
-                call_function="bond",
-                call_params=call_params_bond
-            )
-            call_params_nominate = {'targets': self.call_params['targets']}
-
-            call_nominate = self.activeConfig.activeSubstrate.compose_call(
-                call_module=f"{self.call_module}",
-                call_function="nominate",
-                call_params=call_params_nominate
-            )
-
-            self.call(call_bond)
-            self.call(call_nominate)
-
-            self.__exit__()
-        else:
-            call = self.activeConfig.activeSubstrate.compose_call(
-                call_module=f"{self.call_module}",
-                call_function=f"{func.__name__}",
-                call_params=self.call_params
-            )
-            self.call(call)
-            self.__exit__()
+    def handle_call(self, call_function):
+        call = self.activeConfig.activeSubstrate.compose_call(
+            call_module=self.call_module,
+            call_function=call_function,
+            call_params=self.call_params
+        )
+        self.call(call)
+        self.__exit__()
 
     def __exit__(self):
-        # close connection with remote socket
         self.activeConfig.activeSubstrate.close()
-        # exit system
         sys.exit(0)

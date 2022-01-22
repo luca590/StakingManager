@@ -3,10 +3,10 @@ import json
 from src.staking.cosmos.fxn_decorator_implementations.accountImplementation import AccountImplementation
 from src.staking.cosmos.fxn_decorator_implementations.transactionImplementationUtils import CosmosTransactionUtils
 from config import cosmosActiveConfig
-from logger import myLogger
+from logger import logger
 
 activeConfig = cosmosActiveConfig
-logger = myLogger('testing logger')
+logger = logger('testing logger')
 sender_addr = "cosmos18thxn5pjlwnukkufpuwhwln25n978cjwdtl2h8"
 mnemonic = "skill beauty tape never chest mobile scatter coral slab surround divorce awesome army tail actor system manage slice name scout fault mask fruit state"
 derivation_path = "m/44'/118'/0'/0/0"

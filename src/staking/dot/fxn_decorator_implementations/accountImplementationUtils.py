@@ -50,15 +50,15 @@ class KeyPairImplementation:
     def getAddressFromMnemonic(self):
         """
         Calculates the dot address given a mnemonic and prints and returns it (or exits the system if it fails).
-        It's currently kept outside the DotAccountCall as an auxilary function in order to keep the pre-defined
-        function set in DotAccountCall (i.e. createMnemonic, getAccountInfos, etc.)
-        Function is called from DotAccountCall and DotSubstrateCall
+        It's currently kept outside the AccountImplementation as an auxilary function in order to keep the pre-defined
+        function set in AccountImplementation (i.e. createMnemonic, getAccountInfos, etc.)
+        Function is called from AccountImplementation and DotSubstrateCall
         """
         invalidCharacters = "[@_!#$%^&*()<>?/|}{~:]0123456789"
 
         # If a mnemonic is not passed in, the default in the above library will be used
         # however, we will enforce that "something" is passed in to avoid the default (len 10 is arbitrary)
-        if (len(self.mnemonic.split(' ')) < 10):
+        if len(self.mnemonic.split(' ')) < 10:
             self.logger.critical("A bad mnemonic as been passed to create the keypair")
             return False
 

@@ -1,5 +1,5 @@
 import argparse
-from logger import myLogger
+from logger import logger
 
 from src.staking.cosmos.arg_parser.atomAccountArgParser import atomAccountArgParser
 from src.staking.cosmos.arg_parser.atomDelegatorArgParser import atomDelegatorArgParser
@@ -11,12 +11,12 @@ from src.staking.dot.arg_parser.dotBonderArgParser import dotBonderArgParser
 from src.staking.dot.arg_parser.dotStakerArgParser import dotStakeDotArgParser
 from src.staking.ksm.arg_parser.ksmStakerArgParser import ksmStakeDotArgParser
 
-from src.staking.dot.arg_parser.validatorArgParser import validatorDotArgParser
+from src.staking.dot.arg_parser.dotValidatorArgParser import validatorDotArgParser
 from src.staking.ksm.arg_parser.ksmBonderArgParser import ksmBonderArgParser
 from src.staking.ksm.arg_parser.ksmNominatorArgParser import ksmNominatorArgParser
 
 __name = "staking_manager"
-logger = myLogger(__name)
+logger = logger(__name)
 logger.info("Eulith Staking Program Starting.")
 
 """

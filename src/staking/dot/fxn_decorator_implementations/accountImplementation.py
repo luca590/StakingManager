@@ -1,6 +1,6 @@
 import sys
 from config import DotActiveConfig
-from logger import myLogger
+from logger import logger
 from src.staking.dot.fxn_decorator_implementations.accountImplementationUtils import *
 
 
@@ -18,11 +18,13 @@ class AccountImplementation:
     createMnemonic just calls MnemonicImplementation in accountImplementationUtils.py
     """
 
-    def __init__(self, config, logger, mnemonic=None, ss58_address=None):
-        self.activeConfig = config
-        self.logger = logger
+    def __init__(self, mnemonic="", ss58_address=""):
+        self.cli_name = "Accounting"
         self.mnemonic = mnemonic
         self.ss58_address = ss58_address
+        self.logger = logger(self.cli_name)
+        self.logger.info(f"Start {self.cli_name} Program")
+        self.activeConfig = DotActiveConfig
 
     def createNewAccount(self):
         # MnemonicImplementation is called here instead of self.createMnemonic() because it's better
@@ -36,27 +38,14 @@ class AccountImplementation:
         return True
 
     def createMnemonic(self):
-        """
-        The purpose of this function is to provide a function in AccountImplementation class
-        to create a mnemonic without requiring a function outside accountImplementation.py to
-        call a function in accountImplementationUtils.py
-        """
         newMnemonic = MnemonicImplementation(self.logger).createMnemonic()
         return newMnemonic
 
     def getAddressFromMnemonic(self):
-        """
-        The purpose of this function is to provide a function in AccountImplementation class
-        to get an address from a mnemonic without requiring a function outside accountImplementation.py
-        to call a function in accountImplementationUtils.py
-        """
         address = KeyPairImplementation(self.activeConfig, self.logger, self.mnemonic).getAddressFromMnemonic()
         return address
 
     def getAllAccountInfo(self):
-        """
-        The purpose of this function is to get an account info for a specific address.
-        """
         try:
             value = self.activeConfig.activeSubstrate.query('System', 'Account', params=[self.ss58_address]).value
             fee_frozen = int(value['data']['fee_frozen']) / self.activeConfig.coinDecimalPlaces
@@ -79,48 +68,13 @@ class AccountImplementation:
             self.logger.error(f"{e}")
 
     def getAccountBalance(self, purpose=None):
-        """
-        The purpose of this function is to get an account address balance.
-        """
         if purpose is None:
             # TODO: improve this to return dictionary with account values
             self.getAllAccountInfo()
         elif purpose == "bonding":
             return AccountBalanceForBonding(self.activeConfig, self.logger,
                                             self.ss58_address).getAccountBalanceForBonding()
-        else:  # "undefined" scneario - error
+        else:
             self.logger.warning(f"Unknown object passed into getAccountBalance. Failing.")
             sys.exit(0)
 
-
-class DotAccountCall:
-    """
-    Class for executing account related calls for DOT
-    The following calls are made to this class:
-    * All calls in accountingArgParser.py (mnemonic, keypair, info, create)
-    """
-
-    def __init__(self, mnemonic="", ss58_address=""):
-        self.cli_name = "Accounting"
-        self.mnemonic = mnemonic
-        self.ss58_address = ss58_address
-        self.logger = myLogger(self.cli_name)
-        self.logger.info("Start %s Program." % self.cli_name)
-
-    def __call__(self, func):
-        name = func.__name__
-        if name == "mnemonic":
-            AccountImplementation(DotActiveConfig, self.logger, self.mnemonic, self.ss58_address).createMnemonic()
-        elif name == "create":
-            AccountImplementation(DotActiveConfig, self.logger, self.mnemonic, self.ss58_address).createNewAccount()
-        elif name == "info":
-            AccountImplementation(DotActiveConfig, self.logger, self.mnemonic, self.ss58_address).getAllAccountInfo()
-        elif name == "keypair":
-            AccountImplementation(DotActiveConfig, self.logger, self.mnemonic, self.ss58_address).getAddressFromMnemonic()
-        else:
-            pass
-
-
-# helper print method for checking the code, can delete function and all references anytime
-def printTmp(printMe):
-    print("\n\n****************\n %s \n****************\n\n" % printMe)

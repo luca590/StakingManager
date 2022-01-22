@@ -2,9 +2,8 @@ import logging
 from colorlog import ColoredFormatter
 
 
-def myLogger(name) -> logging:
+def logger(name):
     LOG_LEVEL = logging.DEBUG
-
     LOGFORMAT = "%(log_color)s%(name)s%(reset)s : %(log_color)s[%(levelname)-s]%(reset)s | %(log_color)s%(message)s%(reset)s"
 
     logging.root.setLevel(LOG_LEVEL)

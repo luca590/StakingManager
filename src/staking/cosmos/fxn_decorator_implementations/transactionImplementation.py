@@ -13,7 +13,7 @@ class CosmosCall:
         self.activeConfig = config
         self.call_params = call_params
         self.mnemonic = mnemonic
-        self.logger = myLogger(cli_name)
+        self.logger = logger(cli_name)
         self.logger.info("Start %s Program." % cli_name)
 
     def __call__(self, func):

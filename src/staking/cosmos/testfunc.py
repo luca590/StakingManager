@@ -1,6 +1,6 @@
 import json
 
-from logger import myLogger
+from logger import logger
 from src.staking.cosmos.cosmosAPI import CosmosApi
 from src.staking.cosmos.fxn_decorator_implementations.accountImplementation import AccountImplementation
 from src.staking.cosmos.fxn_decorator_implementations.transactionImplementation import CosmosTransaction
@@ -19,7 +19,7 @@ validator_src_address = "cosmosvaloper1qwl879nx9t6kef4supyazayf7vjhennyh568ys"
 
 amount = 0.00001
 
-ai = AccountImplementation(config=cosmosActiveConfig, logger=myLogger("cosmos"), address=addr_1,
+ai = AccountImplementation(config=cosmosActiveConfig, logger=logger("cosmos"), address=addr_1,
                            mnemonic=seed_1,
                            derivation_path="m/44'/118'/0'/0/0")
 # ai.getPrivateKeyFromMnemonic()
@@ -52,11 +52,11 @@ print(capi.getAccountUnbondingDelegationsInfo(addr2))
 print(CosmosApi().getAccountInfo(addr2))"""
 
 tx_0 = CosmosTransaction(config=cosmosActiveConfig,
-                                logger=myLogger("test tx"),
-                                mnemonic=seed_0,
-                                derivation_path="m/44'/118'/0'/0/0",
-                                recipient=addr_0,
-                                amount=amount).createTransactionObject()
+                         logger=logger("test tx"),
+                         mnemonic=seed_0,
+                         derivation_path="m/44'/118'/0'/0/0",
+                         recipient=addr_0,
+                         amount=amount).createTransactionObject()
 
 tx_0.addTransferMsgDelegate(delegationType="MsgDelegate", validator_address=validator_src_address, amount=amount)
 addTransferMsgDelegateDelegate_tx = tx_0.get_pushable()

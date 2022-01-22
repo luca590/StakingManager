@@ -113,8 +113,8 @@ example:
 
 """
 
-# unbound
-exampleUnBound = """
+# unbond
+exampleUnbond = """
 description : 
   unbound dot coin
 
@@ -122,8 +122,8 @@ example:
   python %(prog)s -s/--seed "MNEMONIC_PHRASE" -nt NUMBER_OF_TOKENS \n
 """
 
-# rebound
-exampleReBound = """
+# rebond
+exampleRebond = """
 description : 
   rebound dot coin
 
@@ -131,10 +131,10 @@ example:
   python %(prog)s -s/--seed "MNEMONIC_PHRASE" -nt NUMBER_OF_TOKENS \n    
     """
 
-# bound extra
-exampleBoundExtra = """
+# bond extra
+exampleBondExtra = """
 description : 
-  boundextra dot coin
+  bondextra dot coin
 
 example:
   python %(prog)s -s/--seed "MNEMONIC_PHRASE" -nt NUMBER_OF_TOKENS \n
