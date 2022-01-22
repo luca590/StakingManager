@@ -18,9 +18,9 @@ def atomDelegatorArgParser(parent_parser):
     """
 
     @subcommand(parent=delegatorSubParser,
-                subHelp="Submit delegation to a validator.",
-                epilog=exampleBond, reqArgs=[actionMnemonic(), actionControllerAddress(), actionNumberOfTokens()],
-                optArgs=[actionValidatorAddress(cosmosActiveConfig), actionHelp()])
+                sub_help="Submit delegation to a validator.",
+                epilog=exampleBond, required_args=[actionMnemonic(), actionControllerAddress(), actionNumberOfTokens()],
+                optional_args=[actionValidatorAddress(cosmosActiveConfig), actionHelp()])
     def delegate(args):
         @CosmosCall(config=cosmosActiveConfig, cli_name="delegator",
                     call_params={'controller': args.controller_address, 'value': args.number_of_tokens},
@@ -33,9 +33,9 @@ def atomDelegatorArgParser(parent_parser):
     """
 
     @subcommand(parent=delegatorSubParser,
-                subHelp="stop delegation.",
-                epilog=exampleBond, reqArgs=[actionMnemonic(), actionNumberOfTokens()],
-                optArgs=[actionHelp()])
+                sub_help="stop delegation.",
+                epilog=exampleBond, required_args=[actionMnemonic(), actionNumberOfTokens()],
+                optional_args=[actionHelp()])
     def unbonding_delegations(args):
         @CosmosCall(config=cosmosActiveConfig, cli_name="delegator",
                     call_params={'value': args.number_of_tokens}, mnemonic=args.mnemonic)
@@ -49,9 +49,9 @@ def atomDelegatorArgParser(parent_parser):
     """
 
     @subcommand(parent=delegatorSubParser,
-                subHelp="redelegations a portion of the stash scheduled to be unlocked.",
-                epilog=exampleReBound, reqArgs=[actionMnemonic(), actionNumberOfTokens()],
-                optArgs=[actionValidatorAddress(cosmosActiveConfig), actionHelp()])
+                sub_help="redelegations a portion of the stash scheduled to be unlocked.",
+                epilog=exampleReBound, required_args=[actionMnemonic(), actionNumberOfTokens()],
+                optional_args=[actionValidatorAddress(cosmosActiveConfig), actionHelp()])
     def redelegations(args):
         @CosmosCall(config=cosmosActiveConfig, cli_name="delegator",
                     call_params={'value': args.number_of_tokens}, mnemonic=args.mnemonic)

@@ -1,10 +1,9 @@
 from src.staking.dot.fxn_decorator_implementations.substrateCallImplementation import SubstrateCall
 from common import MyHelpFormatter
 from src.staking.dot.argparserUtil import actionMnemonic, actionValidatorAddress, actionHelp, \
-    subcommand, \
-    actionTest, actionNumberOfTokens
+    subcommand, actionNumberOfTokens
 from config import kusamaActiveConfig
-from examples import exampleNominator, exampleNominate, exampleUnominateTmp, exampleUnominateAll
+from examples import exampleNominator, exampleNominate, exampleUnnominateTmp, exampleUnnominateAll
 
 
 def ksmNominatorArgParser(parser_parent):
@@ -30,8 +29,8 @@ def ksmNominatorArgParser(parser_parent):
     :return:
     """
 
-    @subcommand(parent=nominatorSubParser, subHelp=exampleNominate, reqArgs=[actionMnemonic()],
-                optArgs=[actionValidatorAddress(kusamaActiveConfig), actionHelp()])
+    @subcommand(parent=nominatorSubParser, sub_help=exampleNominate, required_args=[actionMnemonic()],
+                optional_args=[actionValidatorAddress(kusamaActiveConfig), actionHelp()])
     def nominate(args):
         @SubstrateCall(config=kusamaActiveConfig, cli_name="Nominator", call_module="Staking",
                        call_params={'targets': args.validator_address},
@@ -57,8 +56,8 @@ def ksmNominatorArgParser(parser_parent):
     # </weight>"
     """
 
-    @subcommand(parent=nominatorSubParser, subHelp=exampleUnominateTmp, reqArgs=[actionMnemonic()],
-                optArgs=[actionTest()])
+    @subcommand(parent=nominatorSubParser, sub_help=exampleUnnominateTmp, required_args=[actionMnemonic()],
+                optional_args=[actionHelp()])
     def stop_nominate_tmp(args):
         @SubstrateCall(config=kusamaActiveConfig, cli_name="Nominator", call_module="Staking", call_params={},
                        seed=args.mnemonic)
@@ -83,9 +82,9 @@ def ksmNominatorArgParser(parser_parent):
     requirements.
     """
 
-    @subcommand(parent=nominatorSubParser, subHelp=exampleUnominateAll,
-                reqArgs=[actionMnemonic(), actionNumberOfTokens()],
-                optArgs=[actionTest()])
+    @subcommand(parent=nominatorSubParser, sub_help=exampleUnnominateAll,
+                required_args=[actionMnemonic(), actionNumberOfTokens()],
+                optional_args=[actionHelp()])
     def stop_nominate_all(args):
         @SubstrateCall(config=kusamaActiveConfig, cli_name="Nominator", call_module="Staking",
                        call_params={'value': args.number_of_tokens},

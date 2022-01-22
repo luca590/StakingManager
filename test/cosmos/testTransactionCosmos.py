@@ -3,7 +3,7 @@ import json
 from src.staking.cosmos.fxn_decorator_implementations.accountImplementation import AccountImplementation
 from src.staking.cosmos.fxn_decorator_implementations.transactionImplementationUtils import CosmosTransactionUtils
 from config import cosmosActiveConfig
-from Logger import myLogger
+from logger import myLogger
 
 activeConfig = cosmosActiveConfig
 logger = myLogger('testing logger')

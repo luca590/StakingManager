@@ -1,6 +1,5 @@
 import argparse
 import os
-import sys
 
 from utils import get_project_root_dir
 

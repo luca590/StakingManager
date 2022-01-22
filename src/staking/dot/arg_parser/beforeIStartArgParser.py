@@ -1,15 +1,15 @@
 # beforeIStartArgParser
 from src.staking.dot.argparserUtil import actionHelp, subcommand
 from examples import exampleGuide
-from Logger import myLogger
+from logger import myLogger
 
 
 def beforeIStartArgParser(parent_parser):
     # bounder parent parser
     @subcommand(parent=parent_parser,
-                subHelp="Get most helpfull tips abount polkadot protocol and staking.",
+                sub_help="Get most helpfull tips abount polkadot protocol and staking.",
                 epilog=exampleGuide,
-                optArgs=[actionHelp()])
+                optional_args=[actionHelp()])
     def guide(args):
         userGuide = """Polkadot staking notes
         

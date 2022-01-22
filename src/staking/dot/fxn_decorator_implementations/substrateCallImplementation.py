@@ -4,19 +4,10 @@ from substrateinterface import ExtrinsicReceipt
 from config import dotModulesErrors
 from substrateinterface.exceptions import SubstrateRequestException
 
-from Logger import myLogger
+from logger import myLogger
 
 
-# https://docs.rs/pallet-staking/latest/pallet_staking/enum.Call.html#variant.chill
 class SubstrateCall:
-    """
-    Generic class for executing calls to DOT network
-    The following calls are made to this class:
-    * All calls in atomBonderArgParser.py (bond, unbond, rebond, bondextra, withdrawunbounded)
-    * Some calls in dotNominatorArgParser.py (nominate, unnominate)
-    * 1 call in stakerArgParser (staker)
-    """
-
     def __init__(self, config, cli_name, call_module, call_params, seed):
         self.activeConfig = config
         self.call_module = call_module
@@ -24,6 +15,8 @@ class SubstrateCall:
         self.seed = seed
         self.logger = myLogger(cli_name)
         self.logger.info("Start %s Program." % cli_name)
+
+        print('HELLO')
 
     def errorHandler(self, extrinsic_hash, block_hash, logger):
         errors = set()

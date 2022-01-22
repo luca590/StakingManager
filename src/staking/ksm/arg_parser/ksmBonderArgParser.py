@@ -38,9 +38,9 @@ def ksmBonderArgParser(parent_parser):
     """
 
     @subcommand(parent=bonderSubParser,
-                subHelp="Take the origin account as a stash and lock up `value` of its balance. `controller` will be the account that controls it.",
-                epilog=exampleBond, reqArgs=[actionMnemonic(), actionControllerAddress(), actionNumberOfTokens()],
-                optArgs=[actionRewardsDestination(), actionValidatorAddress(kusamaActiveConfig), actionHelp()])
+                sub_help="Take the origin account as a stash and lock up `value` of its balance. `controller` will be the account that controls it.",
+                epilog=exampleBond, required_args=[actionMnemonic(), actionControllerAddress(), actionNumberOfTokens()],
+                optional_args=[actionRewardsDestination(), actionValidatorAddress(kusamaActiveConfig), actionHelp()])
     def bond(args):
         @SubstrateCall(config=kusamaActiveConfig, cli_name="bonder", call_module="Staking",
                        call_params={'controller': args.controller_address, 'value': args.number_of_tokens,
@@ -69,9 +69,9 @@ def ksmBonderArgParser(parent_parser):
     """
 
     @subcommand(parent=bonderSubParser,
-                subHelp="Schedule a portion of the stash to be unlocked ready for transfer out after the bond period ends.",
-                epilog=exampleBond, reqArgs=[actionMnemonic(), actionNumberOfTokens()],
-                optArgs=[actionHelp()])
+                sub_help="Schedule a portion of the stash to be unlocked ready for transfer out after the bond period ends.",
+                epilog=exampleBond, required_args=[actionMnemonic(), actionNumberOfTokens()],
+                optional_args=[actionHelp()])
     def unbond(args):
         @SubstrateCall(config=kusamaActiveConfig, cli_name="bonder", call_module="Staking",
                        call_params={'value': args.number_of_tokens}, seed=args.mnemonic)
@@ -99,9 +99,9 @@ def ksmBonderArgParser(parent_parser):
     """
 
     @subcommand(parent=bonderSubParser,
-                subHelp="Rebond a portion of the stash scheduled to be unlocked.",
-                epilog=exampleReBound, reqArgs=[actionMnemonic(), actionNumberOfTokens()],
-                optArgs=[actionRewardsDestination(), actionValidatorAddress(kusamaActiveConfig), actionHelp()])
+                sub_help="Rebond a portion of the stash scheduled to be unlocked.",
+                epilog=exampleReBound, required_args=[actionMnemonic(), actionNumberOfTokens()],
+                optional_args=[actionRewardsDestination(), actionValidatorAddress(kusamaActiveConfig), actionHelp()])
     def rebond(args):
         @SubstrateCall(config=kusamaActiveConfig, cli_name="bonder", call_module="Staking",
                        call_params={'value': args.number_of_tokens}, seed=args.mnemonic)
@@ -124,9 +124,9 @@ def ksmBonderArgParser(parent_parser):
     """
 
     @subcommand(parent=bonderSubParser,
-                subHelp="Add some extra amount that have appeared in the stash `free_balance` into the balance up for staking.",
-                epilog=exampleBoundExtra, reqArgs=[actionMnemonic(), actionControllerAddress(), actionNumberOfTokens()],
-                optArgs=[actionRewardsDestination(), actionValidatorAddress(kusamaActiveConfig), actionHelp()])
+                sub_help="Add some extra amount that have appeared in the stash `free_balance` into the balance up for staking.",
+                epilog=exampleBoundExtra, required_args=[actionMnemonic(), actionControllerAddress(), actionNumberOfTokens()],
+                optional_args=[actionRewardsDestination(), actionValidatorAddress(kusamaActiveConfig), actionHelp()])
     def bondextra(args):
         @SubstrateCall(config=kusamaActiveConfig, cli_name="bonder", call_module="Staking",
                        call_params={'value': args.number_of_tokens, 'controller': args.controller_address},
@@ -153,10 +153,10 @@ def ksmBonderArgParser(parent_parser):
     """
 
     @subcommand(parent=bonderSubParser,
-                subHelp="Remove any unlocked chunks from the `unlocking` queue. This essentially frees up that balance "
+                sub_help="Remove any unlocked chunks from the `unlocking` queue. This essentially frees up that balance "
                         "to be used by the stash account to do whatever it wants.",
-                epilog=exampleWithdrawUnBonded, reqArgs=[actionMnemonic(), actionNumSlashingSpans()],
-                optArgs=[actionHelp()])
+                epilog=exampleWithdrawUnBonded, required_args=[actionMnemonic(), actionNumSlashingSpans()],
+                optional_args=[actionHelp()])
     def withdrawunbonded(args):
         @SubstrateCall(config=kusamaActiveConfig, cli_name="bonder", call_module="Staking",
                        call_params={'num_slashing_spans': args.num_slashing_spans}, seed=args.mnemonic)

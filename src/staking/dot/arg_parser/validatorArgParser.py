@@ -8,9 +8,9 @@ from examples import exampleStaker
 def validatorDotArgParser(parent_parser):
     # bounder parent parser
     @subcommand(parent=parent_parser,
-                subHelp="Get a list of validator that meat polkadot requirements.",
-                epilog=exampleStaker, reqArgs=[],
-                optArgs=[actionHelp()])
+                sub_help="Get a list of validator that meat polkadot requirements.",
+                epilog=exampleStaker, required_args=[],
+                optional_args=[actionHelp()])
     def validator(args):
         @SubstrateCall()
         def check():

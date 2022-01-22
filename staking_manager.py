@@ -1,10 +1,10 @@
 import argparse
-from Logger import myLogger
+from logger import myLogger
 
 from src.staking.cosmos.arg_parser.atomAccountArgParser import atomAccountArgParser
 from src.staking.cosmos.arg_parser.atomDelegatorArgParser import atomDelegatorArgParser
 
-from src.staking.dot.arg_parser.accountArgParser import accountArgParser
+from src.staking.dot.arg_parser.dotAccountArgParser import accountArgParser
 from src.staking.dot.arg_parser.beforeIStartArgParser import beforeIStartArgParser
 from src.staking.dot.arg_parser.dotNominatorArgParser import dotNominatorArgParser
 from src.staking.dot.arg_parser.dotBonderArgParser import dotBonderArgParser
@@ -50,10 +50,7 @@ topParentParser
 
 # parent parser (top level arguments parser)
 parentParser = argparse.ArgumentParser(prog='staking_manager.py')
-
-# parent subparser (top level arguments subparser)
-# declaring more then one subparser/parser will raise (error: cannot have multiple subparser arguments)
-stakeCoinSubParsers = parentParser.add_subparsers(help='Available staking coins.')
+stakeCoinSubParsers = parentParser.add_subparsers(help='available staking coins')
 
 # staking coin parsers group
 # parent parser for any added coin will be declared here
@@ -63,7 +60,7 @@ ksmParentParser = stakeCoinSubParsers.add_parser(name='ksm', help='Kusama stakin
 atomParentParser = stakeCoinSubParsers.add_parser(name='atom', help='Cosmos staking interface')
 
 # dot
-dotSubParser = dotParentParser.add_subparsers(dest="dot", help='Available dot staking commands')
+dotSubParser = dotParentParser.add_subparsers(dest="dot", help='available dot staking commands')
 dotAccount = accountArgParser(dotSubParser, "DOT")
 dotStaker = dotStakeDotArgParser(dotSubParser)
 dotNominator = dotNominatorArgParser(dotSubParser)
@@ -89,7 +86,6 @@ if __name__ == "__main__":
     args = parentParser.parse_args()
     var_args = vars(args)
 
-    print(var_args)
     if var_args:
         if 'dot' in var_args:
             dot = var_args['dot']

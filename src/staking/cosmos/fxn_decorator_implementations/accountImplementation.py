@@ -1,5 +1,5 @@
 import json
-from Logger import myLogger
+from logger import myLogger
 from cosmospy import generate_wallet, BIP32DerivationError, seed_to_privkey, privkey_to_pubkey, pubkey_to_address, \
     privkey_to_address
 

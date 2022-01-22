@@ -6,43 +6,42 @@ from src.staking.dot.argparserUtil import actionHelp, subcommand, actionMnemonic
 
 
 def accountArgParser(parent_parser, coin):
-    # bounder parent parser
     accountDotParser = parent_parser.add_parser(name="account",
-                                                help=f"account interface to {coin}.",
-                                                add_help=False, epilog=exampleAccount,
+                                                help=f"account interface to {coin}",
+                                                epilog=exampleAccount,
                                                 formatter_class=MyHelpFormatter)
 
     accountDotSubParser = accountDotParser.add_subparsers(help='')
 
     # create mnemonic
-    @subcommand(parent=accountDotSubParser, subHelp="create a mnemonic phrase.", epilog=exampleCreateMnemonic,
-                optArgs=[actionHelp()])
+    @subcommand(parent=accountDotSubParser, sub_help="create a mnemonic phrase.", epilog=exampleCreateMnemonic,
+                optional_args=[actionHelp()])
     def mnemonic(args):
         @DotAccountCall()
         def mnemonic():
             pass
 
     # create_keypair
-    @subcommand(parent=accountDotSubParser, subHelp="create a key pair from seed", epilog=exampleCreateKeypair,
-                reqArgs=[actionMnemonic()],
-                optArgs=[actionHelp()])
+    @subcommand(parent=accountDotSubParser, sub_help="create a key pair from seed", epilog=exampleCreateKeypair,
+                required_args=[actionMnemonic()],
+                optional_args=[actionHelp()])
     def keypair(args):
         @DotAccountCall(mnemonic=args.mnemonic)
         def keypair():
             pass
 
     # account_infos
-    @subcommand(parent=accountDotSubParser, subHelp="get an account info.", epilog=exampleAccountInfos,
-                reqArgs=[actionControllerAddress()],
-                optArgs=[actionHelp()])
+    @subcommand(parent=accountDotSubParser, sub_help="get an account info.", epilog=exampleAccountInfos,
+                required_args=[actionControllerAddress()],
+                optional_args=[actionHelp()])
     def info(args):
         @DotAccountCall(ss58_address=args.controller_address)
         def info():
             pass
 
     # create_account
-    @subcommand(parent=accountDotSubParser, subHelp="create an account.", epilog=exampleCreateAccount,
-                optArgs=[actionHelp()])
+    @subcommand(parent=accountDotSubParser, sub_help="create an account.", epilog=exampleCreateAccount,
+                optional_args=[actionHelp()])
     def create(args):
         @DotAccountCall()
         def create():

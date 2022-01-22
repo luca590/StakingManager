@@ -152,7 +152,7 @@ class KusamaTestingConfig:
     existentialDeposit = 1
 
 
-dotActiveConfig = DotTestingConfig
+DotActiveConfig = DotTestingConfig
 kusamaActiveConfig = KusamaTestingConfig
 # -------------------------------------------------- ** End Polkadot ** ------------------------------------------------
 

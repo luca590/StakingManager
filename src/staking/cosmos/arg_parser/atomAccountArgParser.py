@@ -15,25 +15,25 @@ def atomAccountArgParser(parent_parser):
     accountAtomSubParser = accountAtomParser.add_subparsers(help='')
 
     # account_infos
-    @subcommand(parent=accountAtomSubParser, subHelp="get an account info.", epilog=exampleAccountInfos,
-                reqArgs=[actionControllerAddress()],
-                optArgs=[actionHelp()])
+    @subcommand(parent=accountAtomSubParser, sub_help="get an account info.", epilog=exampleAccountInfos,
+                required_args=[actionControllerAddress()],
+                optional_args=[actionHelp()])
     def info(args):
         @AtomAccountCall(address=args.controller_address)
         def info():
             pass
 
     # create_account
-    @subcommand(parent=accountAtomSubParser, subHelp="create an account.", epilog=exampleCreateAccount,
-                optArgs=[actionHelp()])
+    @subcommand(parent=accountAtomSubParser, sub_help="create an account.", epilog=exampleCreateAccount,
+                optional_args=[actionHelp()])
     def create(args):
         @AtomAccountCall()
         def create():
             pass
 
-    @subcommand(parent=accountAtomSubParser, subHelp="create an account.", epilog=exampleCreateAccount,
-                reqArgs=[actionMnemonic(), actionDerivationPath()],
-                optArgs=[actionHelp()])
+    @subcommand(parent=accountAtomSubParser, sub_help="create an account.", epilog=exampleCreateAccount,
+                required_args=[actionMnemonic(), actionDerivationPath()],
+                optional_args=[actionHelp()])
     def keypair(args):
         @AtomAccountCall(mnemonic=args.mnemonic, derivation_path=args.derivation_path)
         def keypair():

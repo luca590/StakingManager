@@ -1,6 +1,6 @@
 import json
 
-from Logger import myLogger
+from logger import myLogger
 from src.staking.cosmos.cosmosAPI import CosmosApi
 from src.staking.cosmos.fxn_decorator_implementations.accountImplementation import AccountImplementation
 from src.staking.cosmos.fxn_decorator_implementations.transactionImplementation import CosmosTransaction

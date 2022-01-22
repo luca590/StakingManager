@@ -1,8 +1,7 @@
-# accounting -----------------------------------------------------------------------------------------------------------
 # stake dot
 exampleAccount = """
-Description
-  Account interface to Polkadot..
+description:
+  account interface to DOT.
 
 example:
   python %(prog)s create -h
@@ -10,14 +9,16 @@ example:
   python %(prog)s mnemonic -h
   python %(prog)s keypair -h
     """
+
 # create mnemonic
 exampleCreateMnemonic = """
-description : 
-  create Mnemonic dot
+description: 
+  create mnemonic dot
 
 example:
   python %(prog)s create_mnemonic \n
     """
+
 # create keypair
 exampleCreateKeypair = """
 description : 
@@ -26,6 +27,7 @@ description :
 example:
   python %(prog)s keypair -m/--mnemonic "MNEMONIC" \n
     """
+
 # account info
 exampleAccountInfos = """
 description : 
@@ -34,6 +36,7 @@ description :
 example:
   python %(prog)s info \n
     """
+
 # create account
 exampleCreateAccount = """
 description : 
@@ -42,7 +45,8 @@ description :
 example:
   python %(prog)s \n
         """
-# nominator ------------------------------------------------------------------------------------------------------------
+
+# nominator
 exampleNominator = """
 Note: 
 You need to bond you <coin> before you can use nominate option.
@@ -52,6 +56,7 @@ example:
     python %(prog)s -h
 
     """
+
 # nominate
 exampleNominate = """
 description : 
@@ -61,8 +66,9 @@ example:
   python %(prog)s nominate -s/--seed "MNEMONIC_PHRASE" -va/--validator_address VALIDATOR_ADDRESS \n
   python %(prog)s nominate -s/--seed "MNEMONIC_PHRASE" -va/--validator_address VALIDATOR_ADDRESS_1,VALIDATOR_ADDRESS_2,VALIDATOR_ADDRESS_N \n
     """
+
 # unnominate_tmp
-exampleUnominateTmp = """
+exampleUnnominateTmp = """
 description : 
   temporarily pause active engagement in staking but does not  unbond funds
 
@@ -70,8 +76,9 @@ example:
   python %(prog)s unnominate_tmp -s/--seed "MNEMONIC_PHRASE" -va/--validator_address VALIDATOR_ADDRESS \n
   python %(prog)s unnominate_tmp -s/--seed "MNEMONIC_PHRASE" -va/--validator_address VALIDATOR_ADDRESS_1,VALIDATOR_ADDRESS_2,VALIDATOR_ADDRESS_N \n
     """
+
 # unnominate_all
-exampleUnominateAll = """
+exampleUnnominateAll = """
 description : 
   stop active engagement in staking and unbond funds
 
@@ -79,7 +86,8 @@ example:
   python %(prog)s unnominate_all -s/--seed "MNEMONIC_PHRASE" -va/--validator_address VALIDATOR_ADDRESS \n
   python %(prog)s unnominate_all -s/--seed "MNEMONIC_PHRASE" -va/--validator_address VALIDATOR_ADDRESS_1,VALIDATOR_ADDRESS_2,VALIDATOR_ADDRESS_N \n
     """
-# bounder --------------------------------------------------------------------------------------------------------------
+
+# bounder
 exampleBonder = """
 description : 
   bonder interface.
@@ -92,6 +100,7 @@ example:
   python %(prog)s withdrawunbonded -h
   \n
 """
+
 # bond
 exampleBond = """
 description : 
@@ -103,6 +112,7 @@ example:
   python %(prog)s -s/--seed "MNEMONIC_PHRASE" -ca/--controller_address CONTROLLER_ADDRESS -nt NUMBER_OF_TOKENS -va/--validator_address VALIDATOR_ADDRESS_1,VALIDATOR_ADDRESS_2,VALIDATOR_ADDRESS_N \n
 
 """
+
 # unbound
 exampleUnBound = """
 description : 
@@ -111,6 +121,7 @@ description :
 example:
   python %(prog)s -s/--seed "MNEMONIC_PHRASE" -nt NUMBER_OF_TOKENS \n
 """
+
 # rebound
 exampleReBound = """
 description : 
@@ -119,6 +130,7 @@ description :
 example:
   python %(prog)s -s/--seed "MNEMONIC_PHRASE" -nt NUMBER_OF_TOKENS \n    
     """
+
 # bound extra
 exampleBoundExtra = """
 description : 
@@ -127,6 +139,7 @@ description :
 example:
   python %(prog)s -s/--seed "MNEMONIC_PHRASE" -nt NUMBER_OF_TOKENS \n
     """
+
 # withdraw
 exampleWithdrawUnBonded = """
 description : 
@@ -136,7 +149,7 @@ example:
   python %(prog)s -s/--seed "MNEMONIC_PHRASE" -nt NUMBER_OF_TOKENS \n
     """
 
-# staker ---------------------------------------------------------------------------------------------------------------
+# staker
 exampleStaker = """
 Description\n
   This script will bond and nominate DOT to a validator.\n
@@ -149,7 +162,7 @@ example:\n
   python %(prog)s -s/--seed "MNEMONIC_PHRASE" -ca/--controller_address "CONTROLLER_ADDRESS" -nt/--number_of_tokens NUMBER_OF_TOKENS -rd/--rewards_destination "REWARD_DESTINATION" -va/--validator_address "VALIDATOR_ADDRESS"\n
   python %(prog)s -s/--seed "MNEMONIC_PHRASE" -ca/--controller_address "CONTROLLER_ADDRESS" -nt/--number_of_tokens NUMBER_OF_TOKENS -rd/--rewards_destination "REWARD_DESTINATION" -va/--validator_address "VALIDATOR_ADDRESS_1","VALIDATOR_ADDRESS_2","VALIDATOR_ADDRESS_N"\n
     """
-# validator
+
 # guide
 exampleGuide = """
 Description
@@ -157,5 +170,4 @@ Description
 
 example:
   python %(prog)s
-
 """
