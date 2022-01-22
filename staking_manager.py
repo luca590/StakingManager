@@ -15,9 +15,9 @@ from src.staking.dot.arg_parser.validatorArgParser import validatorDotArgParser
 from src.staking.ksm.arg_parser.ksmBonderArgParser import ksmBonderArgParser
 from src.staking.ksm.arg_parser.ksmNominatorArgParser import ksmNominatorArgParser
 
-__name = "StakingManager"
+__name = "staking_manager"
 logger = myLogger(__name)
-logger.info("BlockchainExecution Staking Program Starting.")
+logger.info("Eulith Staking Program Starting.")
 
 """
 a parser can have 
@@ -49,7 +49,7 @@ topParentParser
 """
 
 # parent parser (top level arguments parser)
-parentParser = argparse.ArgumentParser(prog='stakingmanager.py')
+parentParser = argparse.ArgumentParser(prog='staking_manager.py')
 
 # parent subparser (top level arguments subparser)
 # declaring more then one subparser/parser will raise (error: cannot have multiple subparser arguments)
