@@ -1,6 +1,6 @@
-from src.staking.polkadotAndKusama.fxn_decorator_implementations.substrateCallImplementation import SubstrateCall
+from src.staking.dot.fxn_decorator_implementations.substrateCallImplementation import SubstrateCall
 from common import MyHelpFormatter
-from src.staking.polkadotAndKusama.argparserUtil import actionMnemonic, actionValidatorAddress, actionHelp, subcommand, \
+from src.staking.dot.argparserUtil import actionMnemonic, actionValidatorAddress, actionHelp, subcommand, \
     actionTest, actionNumberOfTokens
 from config import dotActiveConfig
 from examples import exampleNominator, exampleNominate, exampleUnominateTmp, exampleUnominateAll

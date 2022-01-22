@@ -1,5 +1,5 @@
-from src.staking.polkadotAndKusama.fxn_decorator_implementations.substrateCallImplementationUtils import *
-from src.staking.polkadotAndKusama.fxn_decorator_implementations.accountImplementation import *
+from src.staking.dot.fxn_decorator_implementations.substrateCallImplementationUtils import *
+from src.staking.dot.fxn_decorator_implementations.accountImplementation import *
 from substrateinterface import ExtrinsicReceipt
 from config import dotModulesErrors
 from substrateinterface.exceptions import SubstrateRequestException

@@ -1,11 +1,11 @@
-from src.staking.polkadotAndKusama.fxn_decorator_implementations.substrateCallImplementation import SubstrateCall
+from src.staking.dot.fxn_decorator_implementations.substrateCallImplementation import SubstrateCall
 from common import MyHelpFormatter
-from src.staking.polkadotAndKusama.argparserUtil import actionMnemonic, actionNumberOfTokens, \
+from src.staking.dot.argparserUtil import actionMnemonic, actionNumberOfTokens, \
     actionControllerAddress, \
     actionRewardsDestination, \
     actionValidatorAddress, actionHelp, subcommand, actionNumSlashingSpans
 from examples import exampleBond, exampleBonder, exampleBoundExtra, exampleReBound, exampleWithdrawUnBonded
-from config import dotActiveConfig # might be -> from config import DotActiveConfig (?)
+from config import dotActiveConfig
 
 
 def dotBonderArgParser(parent_parser):

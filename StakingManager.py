@@ -4,16 +4,16 @@ from Logger import myLogger
 from src.staking.cosmos.arg_parser.atomAccountArgParser import atomAccountArgParser
 from src.staking.cosmos.arg_parser.atomDelegatorArgParser import atomDelegatorArgParser
 
-from src.staking.polkadotAndKusama.dot.arg_parser.accountArgParser import accountArgParser
-from src.staking.polkadotAndKusama.dot.arg_parser.beforeIStartArgParser import beforeIStartArgParser
-from src.staking.polkadotAndKusama.dot.arg_parser.dotNominatorArgParser import dotNominatorArgParser
-from src.staking.polkadotAndKusama.dot.arg_parser.dotBonderArgParser import dotBonderArgParser
-from src.staking.polkadotAndKusama.dot.arg_parser.dotStakerArgParser import dotStakeDotArgParser
-from src.staking.polkadotAndKusama.ksm.arg_parser.ksmStakerArgParser import ksmStakeDotArgParser
+from src.staking.dot.arg_parser.accountArgParser import accountArgParser
+from src.staking.dot.arg_parser.beforeIStartArgParser import beforeIStartArgParser
+from src.staking.dot.arg_parser.dotNominatorArgParser import dotNominatorArgParser
+from src.staking.dot.arg_parser.dotBonderArgParser import dotBonderArgParser
+from src.staking.dot.arg_parser.dotStakerArgParser import dotStakeDotArgParser
+from src.staking.ksm.arg_parser.ksmStakerArgParser import ksmStakeDotArgParser
 
-from src.staking.polkadotAndKusama.dot.arg_parser.validatorArgParser import validatorDotArgParser
-from src.staking.polkadotAndKusama.ksm.arg_parser.ksmBonderArgParser import ksmBonderArgParser
-from src.staking.polkadotAndKusama.ksm.arg_parser.ksmNominatorArgParser import ksmNominatorArgParser
+from src.staking.dot.arg_parser.validatorArgParser import validatorDotArgParser
+from src.staking.ksm.arg_parser.ksmBonderArgParser import ksmBonderArgParser
+from src.staking.ksm.arg_parser.ksmNominatorArgParser import ksmNominatorArgParser
 
 __name = "StakingManager"
 logger = myLogger(__name)
@@ -82,7 +82,7 @@ ksmValidator = validatorDotArgParser(ksmSubParser)
 # atom
 atomSubParser = atomParentParser.add_subparsers(dest="atom", help='Available atom staking commands')
 atomAccount = atomAccountArgParser(atomSubParser)
-atomatomDelegator = atomDelegatorArgParser(atomSubParser)
+atomDelegator = atomDelegatorArgParser(atomSubParser)
 
 
 if __name__ == "__main__":
@@ -159,7 +159,7 @@ if __name__ == "__main__":
                     try:
                         args.func(args)
                     except AttributeError:
-                        atomatomDelegator.print_help()
+                        atomDelegator.print_help()
                 elif atom == "account":
                     try:
                         args.func(args)

@@ -1,5 +1,5 @@
-from src.staking.polkadotAndKusama.argparserUtil import actionHelp, subcommand
-from src.staking.polkadotAndKusama.fxn_decorator_implementations.substrateCallImplementation import SubstrateCall
+from src.staking.dot.argparserUtil import actionHelp, subcommand
+from src.staking.dot.fxn_decorator_implementations.substrateCallImplementation import SubstrateCall
 
 from examples import exampleStaker
 

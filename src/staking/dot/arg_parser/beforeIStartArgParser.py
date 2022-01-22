@@ -1,5 +1,5 @@
 # beforeIStartArgParser
-from src.staking.polkadotAndKusama.argparserUtil import actionHelp, subcommand
+from src.staking.dot.argparserUtil import actionHelp, subcommand
 from examples import exampleGuide
 from Logger import myLogger
 

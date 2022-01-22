@@ -1,6 +1,6 @@
-from src.staking.polkadotAndKusama.fxn_decorator_implementations.substrateCallImplementation import SubstrateCall
+from src.staking.dot.fxn_decorator_implementations.substrateCallImplementation import SubstrateCall
 from common import MyHelpFormatter
-from src.staking.polkadotAndKusama.argparserUtil import actionMnemonic, actionNumberOfTokens, \
+from src.staking.dot.argparserUtil import actionMnemonic, actionNumberOfTokens, \
     actionControllerAddress, \
     actionRewardsDestination, \
     actionValidatorAddress, actionHelp, subcommand, actionNumSlashingSpans

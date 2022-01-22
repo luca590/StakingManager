@@ -1,8 +1,8 @@
-from src.staking.polkadotAndKusama.fxn_decorator_implementations.accountImplementation import DotAccountCall
+from src.staking.dot.fxn_decorator_implementations.accountImplementation import DotAccountCall
 from common import MyHelpFormatter
 from examples import exampleCreateMnemonic, exampleCreateAccount, exampleAccountInfos, exampleCreateKeypair, \
     exampleAccount
-from src.staking.polkadotAndKusama.argparserUtil import actionHelp, subcommand, actionMnemonic, actionControllerAddress
+from src.staking.dot.argparserUtil import actionHelp, subcommand, actionMnemonic, actionControllerAddress
 
 
 def accountArgParser(parent_parser, coin):
