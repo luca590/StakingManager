@@ -11,3 +11,4 @@ database/
 /gg.json
 draft/
 feature
+.DS_Store
