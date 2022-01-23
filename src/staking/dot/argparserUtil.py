@@ -35,8 +35,10 @@ def actionNumSlashingSpans():
 
 
 def actionMnemonic():
+    help_string = "mnemonic phrase is a group words, often 12 or more,\n" \
+                  "created when a new wallet is made to store your cryptocurrency\n"
     return argument('-m', '--mnemonic',
-                    help='mnemonic phrase is a group words, often 12 or more,\ncreated when a new wallet is made.\n''to store your cryptocurrency.\n\n',
+                    help=help_string,
                     required=True)
 
 

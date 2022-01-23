@@ -1,5 +1,5 @@
-from src.staking.dot.fxn_decorator_implementations.substrateCallImplementationUtils import *
-from src.staking.dot.fxn_decorator_implementations.accountImplementation import *
+from src.staking.dot.fxn_implementations.substrateCallImplementationUtils import *
+from src.staking.dot.fxn_implementations.accountImplementation import *
 from substrateinterface import ExtrinsicReceipt
 from config import dotModulesErrors, DotActiveConfig
 from substrateinterface.exceptions import SubstrateRequestException

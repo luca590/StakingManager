@@ -1,7 +1,7 @@
 import sys
 from config import DotActiveConfig
 from logger import logger
-from src.staking.dot.fxn_decorator_implementations.accountImplementationUtils import *
+from src.staking.dot.fxn_implementations.accountImplementationUtils import *
 
 
 class AccountImplementation:

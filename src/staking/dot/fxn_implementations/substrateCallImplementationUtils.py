@@ -1,6 +1,6 @@
 import sys
 from substrateinterface import Keypair
-from src.staking.dot.fxn_decorator_implementations.accountImplementation import AccountImplementation
+from src.staking.dot.fxn_implementations.accountImplementation import AccountImplementation
 
 
 class BondingValidator:

@@ -1,6 +1,6 @@
 from src.staking.dot.argparserUtil import actionMnemonic, actionNumberOfTokens, actionControllerAddress, \
     actionRewardsDestination, actionValidatorAddress, actionHelp, subcommand
-from src.staking.dot.fxn_decorator_implementations.substrateCallImplementation import \
+from src.staking.dot.fxn_implementations.substrateCallImplementation import \
     SubstrateCall
 from config import DotActiveConfig
 from examples import exampleStaker
@@ -14,8 +14,7 @@ def dotStakeDotArgParser(parent_parser):
                 required_args=[actionMnemonic(), actionControllerAddress(), actionNumberOfTokens()],
                 optional_args=[actionRewardsDestination(), actionValidatorAddress(DotActiveConfig), actionHelp()])
     def stake(args):
-        SubstrateCall(config=DotActiveConfig,
-                      cli_name="Bounder",
+        SubstrateCall(cli_name="Bonder",
                       call_module="Staking",
                       call_params={'controller': args.controller_address, 'value': args.number_of_tokens,
                                    'payee': args.rewards_destination, 'targets': args.validator_address},

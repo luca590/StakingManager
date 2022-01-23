@@ -4,7 +4,7 @@ from logger import logger
 from src.staking.cosmos.arg_parser.atomAccountArgParser import atomAccountArgParser
 from src.staking.cosmos.arg_parser.atomDelegatorArgParser import atomDelegatorArgParser
 
-from src.staking.dot.arg_parser.dotAccountArgParser import accountArgParser
+from src.staking.dot.arg_parser.dotAccountArgParser import dotAccountArgParser
 from src.staking.dot.arg_parser.beforeIStartArgParser import beforeIStartArgParser
 from src.staking.dot.arg_parser.dotNominatorArgParser import dotNominatorArgParser
 from src.staking.dot.arg_parser.dotBonderArgParser import dotBonderArgParser
@@ -61,7 +61,7 @@ atomParentParser = stakeCoinSubParsers.add_parser(name='atom', help='Cosmos stak
 
 # dot
 dotSubParser = dotParentParser.add_subparsers(dest="dot", help='available dot staking commands')
-dotAccount = accountArgParser(dotSubParser, "DOT")
+dotAccount = dotAccountArgParser(dotSubParser, "DOT")
 dotStaker = dotStakeDotArgParser(dotSubParser)
 dotNominator = dotNominatorArgParser(dotSubParser)
 dotBonder = dotBonderArgParser(dotSubParser)
@@ -70,7 +70,7 @@ guide = beforeIStartArgParser(dotSubParser)
 
 # ksm
 ksmSubParser = ksmParentParser.add_subparsers(dest="ksm", help='Available ksm staking commands')
-ksmAccount = accountArgParser(dotSubParser, "KSM")
+ksmAccount = dotAccountArgParser(dotSubParser, "KSM")
 ksmStaker = ksmStakeDotArgParser(ksmSubParser)
 ksmNominator = ksmNominatorArgParser(ksmSubParser)
 ksmBonder = ksmBonderArgParser(ksmSubParser)
@@ -81,94 +81,71 @@ atomSubParser = atomParentParser.add_subparsers(dest="atom", help='Available ato
 atomAccount = atomAccountArgParser(atomSubParser)
 atomDelegator = atomDelegatorArgParser(atomSubParser)
 
+help_map = {
+    'dot': {
+        'stake': dotStaker,
+        'nominator': dotNominator,
+        'bonder': dotBonder,
+        'account': dotAccount,
+        'validator': dotValidator,
+        'delegator': None,
+        'guide': guide,
+        'parent_parser': dotParentParser
+    },
+    'ksm': {
+        'stake': None,
+        'nominator': ksmNominator,
+        'bonder': ksmBonder,
+        'account': ksmAccount,
+        'validator': ksmValidator,
+        'delegator': None,
+        'guide': guide,
+        'parent_parser': ksmParentParser
+    },
+    'atom': {
+        'stake': None,
+        'nominator': None,
+        'bonder': None,
+        'account': atomAccount,
+        'validator': None,
+        'guide': guide,
+        'parent_parser': atomParentParser
+    }
+}
+
 
 if __name__ == "__main__":
     args = parentParser.parse_args()
     var_args = vars(args)
 
-    if var_args:
-        if 'dot' in var_args:
-            dot = var_args['dot']
-            if dot:
-                if dot == "stake":
-                    print(args.func)
+    for key, val in var_args.items():
+        if val:
+            if val == "stake":
+                try:
                     args.func(args)
-                elif dot == "nominator":
-                    try:
-                        args.func(args)
-                    except AttributeError:
-                        dotNominator.print_help()
-                elif dot == "bonder":
-                    try:
-                        args.func(args)
-                    except AttributeError:
-                        dotBonder.print_help()
-                elif dot == "account":
-                    try:
-                        args.func(args)
-                    except AttributeError:
-                        dotAccount.print_help()
-                elif dot == "validator":
-                    pass
-                elif dot == "guide":
-                    try:
-                        args.func(args)
-                    except AttributeError:
-                        guide.print_help()
-            else:
-                dotParentParser.print_help()
-        elif 'ksm' in var_args:
-            ksm = var_args['ksm']
-            if ksm:
-                if ksm == "stake":
+                except AttributeError:
+                    help_map[key][val].print_help()
+            elif val == "nominator":
+                try:
                     args.func(args)
-                elif ksm == "nominator":
-                    try:
-                        args.func(args)
-                    except AttributeError:
-                        ksmNominator.print_help()
-                elif ksm == "bonder":
-                    try:
-                        args.func(args)
-                    except AttributeError:
-                        ksmBonder.print_help()
-                elif ksm == "account":
-                    try:
-                        args.func(args)
-                    except AttributeError:
-                        ksmAccount.print_help()
-                elif ksm == "validator":
-                    pass
-                elif ksm == "guide":
-                    try:
-                        args.func(args)
-                    except AttributeError:
-                        guide.print_help()
-            else:
-                ksmParentParser.print_help()
-        elif 'atom' in var_args:
-            atom = var_args['atom']
-            if atom:
-                if atom == "stake":
+                except AttributeError:
+                    help_map[key][val].print_help()
+            elif val == "bonder":
+                try:
                     args.func(args)
-                elif atom == "delegator":
-                    try:
-                        args.func(args)
-                    except AttributeError:
-                        atomDelegator.print_help()
-                elif atom == "account":
-                    try:
-                        args.func(args)
-                    except AttributeError:
-                        atomAccount.print_help()
-                elif atom == "validator":
-                    pass
-                elif atom == "guide":
-                    try:
-                        args.func(args)
-                    except AttributeError:
-                        guide.print_help()
-            else:
-                atomParentParser.print_help()
-    else:
-        parentParser.print_help()
+                except AttributeError:
+                    help_map[key][val].print_help()
+            elif val == "account":
+                try:
+                    args.func(args)
+                except AttributeError:
+                    help_map[key][val].print_help()
+            elif val == "validator":
+                pass
+            elif val == "guide":
+                try:
+                    args.func(args)
+                except AttributeError:
+                    help_map[key][val].print_help()
+        else:
+            help_map[key]['parent_parser'].print_help()

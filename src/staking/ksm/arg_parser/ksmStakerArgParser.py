@@ -2,7 +2,7 @@ from src.staking.dot.argparserUtil import actionMnemonic, actionNumberOfTokens, 
     actionControllerAddress, \
     actionRewardsDestination, \
     actionValidatorAddress, actionHelp, subcommand
-from src.staking.dot.fxn_decorator_implementations.substrateCallImplementation import \
+from src.staking.dot.fxn_implementations.substrateCallImplementation import \
     SubstrateCall
 from config import kusamaActiveConfig
 

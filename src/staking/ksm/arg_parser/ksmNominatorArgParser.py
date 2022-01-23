@@ -1,4 +1,4 @@
-from src.staking.dot.fxn_decorator_implementations.substrateCallImplementation import SubstrateCall
+from src.staking.dot.fxn_implementations.substrateCallImplementation import SubstrateCall
 from common import MyHelpFormatter
 from src.staking.dot.argparserUtil import actionMnemonic, actionValidatorAddress, actionHelp, \
     subcommand, actionNumberOfTokens
