@@ -1,7 +1,7 @@
 from src.staking.dot.fxn_implementations.substrateCallImplementation import SubstrateCall
 from common import MyHelpFormatter
-from src.staking.dot.argparserUtil import actionMnemonic, actionValidatorAddress, actionHelp, \
-    subcommand, actionNumberOfTokens
+from src.staking.dot.argparserUtil import action_mnemonic, action_validator_address, action_help, \
+    subcommand, action_number_of_tokens
 from config import DotActiveConfig
 from examples import exampleNominator, exampleNominate, exampleUnnominateTmp, exampleUnnominateAll
 
@@ -13,8 +13,8 @@ def dotNominatorArgParser(parser_parent):
     nominatorSubParser = nominatorParser.add_subparsers(help='')
 
     # nominate
-    @subcommand(parent=nominatorSubParser, sub_help=exampleNominate, required_args=[actionMnemonic()],
-                optional_args=[actionValidatorAddress(DotActiveConfig), actionHelp()])
+    @subcommand(parent=nominatorSubParser, sub_help=exampleNominate, required_args=[action_mnemonic()],
+                optional_args=[action_validator_address(DotActiveConfig), action_help()])
     def nominate(args):
         SubstrateCall(config=DotActiveConfig,
                       cli_name="Nominator",
@@ -29,8 +29,8 @@ def dotNominatorArgParser(parser_parent):
     # to "chill" their involvement and keep their funds staked.
     # so in fact to totally unstacked all the coin you need to chill and then unbound
     # https://wiki.polkadot.network/docs/maintain-guides-how-to-chill
-    @subcommand(parent=nominatorSubParser, sub_help=exampleUnnominateTmp, required_args=[actionMnemonic()],
-                optional_args=[actionHelp()])
+    @subcommand(parent=nominatorSubParser, sub_help=exampleUnnominateTmp, required_args=[action_mnemonic()],
+                optional_args=[action_help()])
     def stop_nominate_tmp(args):
         SubstrateCall(cli_name="Nominator",
                       call_module="Staking",
@@ -38,8 +38,8 @@ def dotNominatorArgParser(parser_parent):
                       seed=args.mnemonic).handle_call('chill')
 
     @subcommand(parent=nominatorSubParser, sub_help=exampleUnnominateAll,
-                required_args=[actionMnemonic(), actionNumberOfTokens()],
-                optional_args=[actionHelp()])
+                required_args=[action_mnemonic(), action_number_of_tokens()],
+                optional_args=[action_help()])
     def stop_nominate_all(args):
         SubstrateCall(cli_name="Nominator",
                       call_module="Staking",

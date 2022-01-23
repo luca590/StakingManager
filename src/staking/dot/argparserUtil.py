@@ -25,7 +25,7 @@ def subcommand(parent, sub_help="", epilog="", required_args=None, optional_args
     return decorator
 
 
-def actionNumSlashingSpans():
+def action_num_slashing_spans():
     return argument('-nss',
                     '--num_slashing_spans',
                     help="?",
@@ -34,7 +34,7 @@ def actionNumSlashingSpans():
                     type=int)
 
 
-def actionMnemonic():
+def action_mnemonic():
     help_string = "mnemonic phrase is a group words, often 12 or more,\n" \
                   "created when a new wallet is made to store your cryptocurrency\n"
     return argument('-m', '--mnemonic',
@@ -42,7 +42,7 @@ def actionMnemonic():
                     required=True)
 
 
-def actionControllerAddress():
+def action_controller_address():
     help_string = "An address you would like to bond to the stash account.\n" \
                   "Stash and Controller can be the same address but it is not recommended " \
                   "since it defeats the security of the two-account staking model!\n\n"
@@ -53,7 +53,7 @@ def actionControllerAddress():
                     type=str)
 
 
-def actionDerivationPath():
+def action_derivation_path():
     help_string = "The key type and sequence number refer to the segment of the BIP44 derivation path" \
                   "(for example, 0, 1, 2, ...) that is used to derive a private and a public key from the mnemonic!\n\n"
 
@@ -63,18 +63,19 @@ def actionDerivationPath():
                     type=str)
 
 
-def actionNumberOfTokens():
+def action_number_of_tokens():
     return argument('-nt', '--number_of_tokens',
                     help='The number of DOT you would like to stake to the network.\n',
                     required=True,
                     type=float)
 
 
-def actionRewardsDestination():
+def action_rewards_destination():
     help_string = "Choices supports the following:\n" \
                   "staked    - Pay into the stash account, increasing the amount at stake accordingly.\n" \
                   "stash       - Pay into the stash account, not increasing the amount at stake.\n" \
-                  "account     - Pay into a custom account, for example: Account DMTHrNcmA8QbqRS4rBq8LXn8ipyczFoNMb1X4cY2WD9tdBX.\n" \
+                  "account     - Pay into a custom account, for example: " \
+                  "Account DMTHrNcmA8QbqRS4rBq8LXn8ipyczFoNMb1X4cY2WD9tdBX.\n" \
                   "controller  - Pay into the controller account.\n\n"
 
     return argument('-rd', '--rewards_destination',
@@ -85,7 +86,7 @@ def actionRewardsDestination():
                     type=str)
 
 
-def actionValidatorAddress(activeConfig):
+def action_validator_address(activeConfig):
     help_string = "Address of a Polkadot validators (where to stake coins). It can be one or more address.\n" \
                   "By default binance validator address will be chosen.\n\n"
 
@@ -96,7 +97,7 @@ def actionValidatorAddress(activeConfig):
                     required=False,)
 
 
-def actionHelp():
+def action_help():
     return argument("-h",
                     "--help",
                     action="help",

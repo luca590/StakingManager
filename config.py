@@ -2,7 +2,7 @@ from typing import Literal
 from substrateinterface import SubstrateInterface
 import json
 
-# -------------------------------------------------- ** Start Polkadot ** ----------------------------------------------
+# -------------------------------------------------- ** Polkadot (DOT) and Kusama (KSM) RPC endpoints ** ----------------------------------------------
 # websockets ---------------------------------------
 # substrate are a modular framework for building blockchains.
 # Polkadot is built using Substrate. Chains built with Substrate will be easy to connect as parachains.

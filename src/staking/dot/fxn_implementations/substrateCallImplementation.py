@@ -21,7 +21,7 @@ class SubstrateCall:
         except KeyError:
             pass
 
-    def errorHandler(self, extrinsic_hash, block_hash, logger):
+    def error_handler(self, extrinsic_hash, block_hash, logger):
         errors = set()
         receipt = ExtrinsicReceipt(
             substrate=self.activeConfig.activeSubstrate,
@@ -30,12 +30,12 @@ class SubstrateCall:
         )
         for event in receipt.triggered_events:
 
-            eventValue = event.value
-            if eventValue['event']['event_id'] == "ExtrinsicFailed":
-                errorModule = eventValue['attributes'][0]['Module']
-                errorModuleIndex = errorModule[0]
-                errorModuleMessageIndex = errorModule[1]
-                errors.add(dotModulesErrors[str(errorModuleIndex)][str(errorModuleMessageIndex)])
+            event_value = event.value
+            if event_value['event']['event_id'] == "ExtrinsicFailed":
+                error_module = event_value['attributes'][0]['Module']
+                error_module_index = error_module[0]
+                error_module_message_index = error_module[1]
+                errors.add(dotModulesErrors[str(error_module_index)][str(error_module_message_index)])
 
         for err in errors:
             logger.error(f"{err}")
@@ -48,7 +48,7 @@ class SubstrateCall:
             if receipt.is_success:
                 self.logger.info(f"Extrinsic {receipt.extrinsic_hash} sent and included in block {receipt.block_hash}")
             else:
-                self.errorHandler(receipt.extrinsic_hash, receipt.block_hash, self.logger)
+                self.error_handler(receipt.extrinsic_hash, receipt.block_hash, self.logger)
         except SubstrateRequestException as e:
             arg = e.args[0]
             try:
@@ -67,11 +67,11 @@ class SubstrateCall:
 
     def bond(self):
         self.logger.info("Execute bond function")
-
-        bondValidator = BondingValidator(config=self.activeConfig, logger=self.logger,
-                                         ss58_address=self.call_params['controller'],
-                                         tokenNumber=self.call_params['value'])
-        bondValidator.validateAccountDataBeforeBonding()
+        bond_validator = BondingValidator(config=self.activeConfig,
+                                          logger=self.logger,
+                                          ss58_address=self.call_params['controller'],
+                                          token_number=self.call_params['value'])
+        bond_validator.validate_account_data_before_bonding()
 
         call_bond = self.activeConfig.activeSubstrate.compose_call(
             call_module=f"{self.call_module}",
@@ -84,11 +84,11 @@ class SubstrateCall:
 
     def bond_extra(self):
         self.call_params['max_additional'] = self.call_params['value'] * self.activeConfig.coinDecimalPlaces
-        bondValidator = BondingValidator(config=self.activeConfig, logger=self.logger,
+        bond_validator = BondingValidator(config=self.activeConfig, logger=self.logger,
                                          ss58_address=self.call_params['controller'],
-                                         tokenNumber=self.call_params['max_additional'])
+                                         token_number=self.call_params['max_additional'])
 
-        bondValidator.validateAccountDataBeforeBonding()
+        bond_validator.validate_account_data_before_bonding()
 
         del self.call_params['controller']
 

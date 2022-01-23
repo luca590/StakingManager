@@ -1,7 +1,7 @@
 from src.staking.dot.fxn_implementations.substrateCallImplementation import SubstrateCall
 from common import MyHelpFormatter
-from src.staking.dot.argparserUtil import actionMnemonic, actionValidatorAddress, actionHelp, \
-    subcommand, actionNumberOfTokens
+from src.staking.dot.argparserUtil import action_mnemonic, action_validator_address, action_help, \
+    subcommand, action_number_of_tokens
 from config import kusamaActiveConfig
 from examples import exampleNominator, exampleNominate, exampleUnnominateTmp, exampleUnnominateAll
 
@@ -29,8 +29,8 @@ def ksmNominatorArgParser(parser_parent):
     :return:
     """
 
-    @subcommand(parent=nominatorSubParser, sub_help=exampleNominate, required_args=[actionMnemonic()],
-                optional_args=[actionValidatorAddress(kusamaActiveConfig), actionHelp()])
+    @subcommand(parent=nominatorSubParser, sub_help=exampleNominate, required_args=[action_mnemonic()],
+                optional_args=[action_validator_address(kusamaActiveConfig), action_help()])
     def nominate(args):
         @SubstrateCall(config=kusamaActiveConfig, cli_name="Nominator", call_module="Staking",
                        call_params={'targets': args.validator_address},
@@ -56,8 +56,8 @@ def ksmNominatorArgParser(parser_parent):
     # </weight>"
     """
 
-    @subcommand(parent=nominatorSubParser, sub_help=exampleUnnominateTmp, required_args=[actionMnemonic()],
-                optional_args=[actionHelp()])
+    @subcommand(parent=nominatorSubParser, sub_help=exampleUnnominateTmp, required_args=[action_mnemonic()],
+                optional_args=[action_help()])
     def stop_nominate_tmp(args):
         @SubstrateCall(config=kusamaActiveConfig, cli_name="Nominator", call_module="Staking", call_params={},
                        seed=args.mnemonic)
@@ -83,8 +83,8 @@ def ksmNominatorArgParser(parser_parent):
     """
 
     @subcommand(parent=nominatorSubParser, sub_help=exampleUnnominateAll,
-                required_args=[actionMnemonic(), actionNumberOfTokens()],
-                optional_args=[actionHelp()])
+                required_args=[action_mnemonic(), action_number_of_tokens()],
+                optional_args=[action_help()])
     def stop_nominate_all(args):
         @SubstrateCall(config=kusamaActiveConfig, cli_name="Nominator", call_module="Staking",
                        call_params={'value': args.number_of_tokens},

@@ -11,18 +11,18 @@ class BondingValidator:
     The other functions are primarily used to execute validateAccountDataBeforeBonding()
     """
 
-    def __init__(self, config, logger, ss58_address, tokenNumber):
+    def __init__(self, config, logger, ss58_address, token_number):
         # TODO: basic validations in init
-        self.activeConfig = config
+        self.active_config = config
         self.logger = logger
         self.logger.info("Validating account data for bonding")
         self.ss58_address = ss58_address
-        self.tokenNumber = tokenNumber
+        self.token_number = token_number
 
     def __call__(self):
-        self.validateAccountDataBeforeBonding()
+        self.validate_account_data_before_bonding()
 
-    def validateAccountDataBeforeBonding(self):
+    def validate_account_data_before_bonding(self):
         """
         Before we bond any coins we need to check account balance for two main things :
           1 - minimum dot staking amount witch is by time of writing (21/11/2021) is 120 DOT.
@@ -32,60 +32,58 @@ class BondingValidator:
             https://support.polkadot.network/support/solutions/articles/65000168651-what-is-the-existential-deposit-
         """
 
-        self.validateDecimalPoint()
+        self.validate_decimal_point()
 
         # check the number of tokens to bond is above protocol min
-        self.validateBondSize()
+        self.validate_bond_size()
 
         # if the bonding qty is above the protocol min,
         # check that the account balance is sufficient to bond the tokenNumber
         # will sys.exit if balance is insufficient
-        self.validateAcctBalanceForBonding()
+        self.validate_acct_balance_for_bonding()
 
         # TODO: check that controller address matches mnc
 
-    def validateDecimalPoint(self):
-        # check decimal writing
-        lenNumberAfterDecimalPoint = len(str(self.tokenNumber).split(".")[1])
-        if lenNumberAfterDecimalPoint > self.activeConfig.coinDecimalPlacesLength:
+    def validate_decimal_point(self):
+        self.logger.critical(self.token_number)
+        len_number_after_decimal_point = len(str(self.token_number).split(".")[1])
+        if len_number_after_decimal_point > self.active_config.coinDecimalPlacesLength:
             self.logger.warning(
-                f"wrong token value token take max {self.activeConfig.coinDecimalPlacesLength} number after decimal point")
+                f"wrong token value token take max {self.active_config.coinDecimalPlacesLength} number after decimal point")
             sys.exit(0)
 
-    def validateBondSize(self):
+    def validate_bond_size(self):
         """
         Function checks that the size of the bond is above the minimum defined by the network
         Minimum dot staking amount witch is by time of writing (21/11/2021) is 120 DOT.
         TODO: the minimum to stake and the minimum to bond are not the same I assume, which should we be using?
         TODO: confirm that the decimals of tokenNumber and stakeMin are directly comparable?
         """
-        if self.tokenNumber < self.activeConfig.stakeMinimumAmount:
+        if self.token_number < self.active_config.stakeMinimumAmount:
             self.logger.warning(
-                f"You are trying to bond {self.tokenNumber}, but the minimum required for bonding is {self.activeConfig.stakeMinimumAmount} {self.activeConfig.coinName}\n")
+                f"You are trying to bond {self.token_number}, but the minimum required for bonding is {self.active_config.stakeMinimumAmount} {self.active_config.coinName}\n")
             sys.exit(0)
 
-    def validateAcctBalanceForBonding(self):
+    def validate_acct_balance_for_bonding(self):
         """
         Function calculates and compares account balance vs minimum balance needed to stake
         """
         # check requirements
-        accountToVerify = AccountImplementation(config=self.activeConfig, logger=self.logger,
-                                                ss58_address=self.ss58_address)
+        accountToVerify = AccountImplementation(ss58_address=self.ss58_address)
         totalAccountBalance = accountToVerify.get_account_balance("bonding")
-        transactionFees = TransactionFees(config=self.activeConfig, ss58_address=self.ss58_address,
-                                          dest=self.activeConfig.activeValidator[0],
-                                          value=self.tokenNumber).estimateTxFees()
+        transactionFees = TransactionFees(config=self.active_config, ss58_address=self.ss58_address,
+                                          dest=self.active_config.activeValidator[0],
+                                          value=self.token_number).estimateTxFees()
 
-        # we need always to reserve existentialDeposit
-        if totalAccountBalance < (self.tokenNumber + transactionFees + self.activeConfig.existentialDeposit):
-            tokenNumber = self.tokenNumber / self.activeConfig.coinDecimalPlaces
+        tokenNumber = self.token_number / self.active_config.coinDecimalPlaces
+        if totalAccountBalance < (tokenNumber + transactionFees + self.active_config.existentialDeposit):
             self.logger.warning(
                 f"Low balance\n"
-                f"Actual balance is : {totalAccountBalance} {self.activeConfig.coinName}\n"
-                f"Requested amount : {tokenNumber} {self.activeConfig.coinName}\n"
-                f"Your account needs to have a minimum of {self.activeConfig.existentialDeposit} "
-                f"{self.activeConfig.coinName} plus the requested amount plus the transaction fees and it does not.\nYou need at least: "
-                f"{self.activeConfig.existentialDeposit} + {tokenNumber} + {transactionFees} = {self.activeConfig.existentialDeposit + tokenNumber + transactionFees}, "
+                f"Actual balance is : {totalAccountBalance} {self.active_config.coinName}\n"
+                f"Requested amount : {tokenNumber} {self.active_config.coinName}\n"
+                f"Your account needs to have a minimum of {self.active_config.existentialDeposit} "
+                f"{self.active_config.coinName} plus the requested amount plus the transaction fees and it does not.\nYou need at least: "
+                f"{self.active_config.existentialDeposit} + {tokenNumber} + {transactionFees} = {self.active_config.existentialDeposit + tokenNumber + transactionFees}, "
                 f"but the account balance is only {totalAccountBalance}")
             sys.exit(0)
 

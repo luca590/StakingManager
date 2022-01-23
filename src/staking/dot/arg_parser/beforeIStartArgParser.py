@@ -1,4 +1,4 @@
-from src.staking.dot.argparserUtil import actionHelp, subcommand
+from src.staking.dot.argparserUtil import action_help, subcommand
 from examples import exampleGuide
 from logger import logger
 
@@ -8,7 +8,7 @@ def beforeIStartArgParser(parent_parser):
     @subcommand(parent=parent_parser,
                 sub_help="Get most helpfull tips abount polkadot protocol and staking.",
                 epilog=exampleGuide,
-                optional_args=[actionHelp()])
+                optional_args=[action_help()])
     def guide(args):
         userGuide = "Polkadot staking notes\n" \
                     "- Nominating currently requires a minimum of 120 DOT staked funds on Polkadot.\n" \

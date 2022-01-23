@@ -17,7 +17,6 @@ class AccountImplementation:
     Therefore, some of the functions in AccountImplementation are "redundant", e.g. 
     createMnemonic just calls MnemonicImplementation in accountImplementationUtils.py
     """
-
     def __init__(self, mnemonic="", ss58_address=""):
         self.cli_name = "Accounting"
         self.mnemonic = mnemonic
