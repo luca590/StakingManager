@@ -29,20 +29,20 @@ class AccountImplementation:
     def createNewAccount(self):
         # MnemonicImplementation is called here instead of self.createMnemonic() because it's better
         # for functions in the AccountImplementation class to directly call the implementation classes
-        newMnemonic = MnemonicImplementation(self.logger).createMnemonic()
+        newMnemonic = MnemonicImplementation(self.logger).create_mnemonic()
         createAccountKeyPair = KeyPairImplementation(self.activeConfig, self.logger,
-                                                     newMnemonic).getAddressFromMnemonic()
+                                                     newMnemonic).get_address_from_mnemonic()
         # check if mnemonic is created if this pass keypair will pass without errors
         if not createAccountKeyPair:
             return False
         return True
 
     def createMnemonic(self):
-        newMnemonic = MnemonicImplementation(self.logger).createMnemonic()
+        newMnemonic = MnemonicImplementation(self.logger).create_mnemonic()
         return newMnemonic
 
     def getAddressFromMnemonic(self):
-        address = KeyPairImplementation(self.activeConfig, self.logger, self.mnemonic).getAddressFromMnemonic()
+        address = KeyPairImplementation(self.activeConfig, self.logger, self.mnemonic).get_address_from_mnemonic()
         return address
 
     def getAllAccountInfo(self):
@@ -67,13 +67,13 @@ class AccountImplementation:
         except Exception as e:
             self.logger.error(f"{e}")
 
-    def getAccountBalance(self, purpose=None):
+    def get_account_balance(self, purpose=None):
         if purpose is None:
             # TODO: improve this to return dictionary with account values
             self.getAllAccountInfo()
         elif purpose == "bonding":
-            return AccountBalanceForBonding(self.activeConfig, self.logger,
-                                            self.ss58_address).getAccountBalanceForBonding()
+            return AccountBalanceForBonding(self.activeConfig, self.logger,self.ss58_address)\
+                .get_account_balance_for_bonding()
         else:
             self.logger.warning(f"Unknown object passed into getAccountBalance. Failing.")
             sys.exit(0)

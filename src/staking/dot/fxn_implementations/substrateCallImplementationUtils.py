@@ -71,7 +71,7 @@ class BondingValidator:
         # check requirements
         accountToVerify = AccountImplementation(config=self.activeConfig, logger=self.logger,
                                                 ss58_address=self.ss58_address)
-        totalAccountBalance = accountToVerify.getAccountBalance("bonding")
+        totalAccountBalance = accountToVerify.get_account_balance("bonding")
         transactionFees = TransactionFees(config=self.activeConfig, ss58_address=self.ss58_address,
                                           dest=self.activeConfig.activeValidator[0],
                                           value=self.tokenNumber).estimateTxFees()
